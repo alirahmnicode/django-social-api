@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # third party packages
     'rest_framework',
     # local apps
+    'accounts',
 ]
 
 MIDDLEWARE = [
