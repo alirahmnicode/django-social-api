@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
+from rest_framework import filters
 
 from accounts.models import CustomUser
 from accounts.serializers import UserSerializer
@@ -12,3 +13,5 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
     authentication_classes = (TokenAuthentication,)
     permission_classes = (UpdateOwnAccount,)
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ("username", "email")
