@@ -25,3 +25,13 @@ class UserSerializer(serializers.ModelSerializer):
         )
         return user
     
+
+class ProfileSerializer(serializers.ModelSerializer):
+    """Serializes a profile object"""
+
+    following = UserSerializer(many=True, read_only=True)
+    followers = UserSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = models.Profile
+        fields = ("id", "first_name", "last_name", "avatar", "following", "followers", "created_at")
