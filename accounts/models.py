@@ -8,6 +8,7 @@ from .managers import UserManager
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     """Custom user model"""
+
     username = models.CharField(
         _("username"),
         max_length=150,
@@ -32,7 +33,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     )
     date_joined = models.DateTimeField(_("date joined"), auto_now_add=True)
 
-    objects = UserManager() 
+    objects = UserManager()
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
@@ -44,3 +45,25 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self) -> str:
         return self.username
+
+
+class Profile(models.Model):
+    """User profile model"""
+    
+    user = models.OneToOneField(
+        CustomUser, on_delete=models.CASCADE, related_name="profile"
+    )
+    first_name = models.CharField(_("First Name"), max_length=250, blank=True)
+    last_name = models.CharField(_("Last Name"), max_length=250, blank=True)
+    avatar = models.ImageField(_("User Profile Image"), upload_to="avatar")
+    following = models.ManyToManyField(
+        CustomUser, verbose_name=_("following"), related_name="following"
+    )
+    followers = models.ManyToManyField(
+        CustomUser, verbose_name=_("followers"), related_name="followers"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"{self.first_name} {self.last_name}"
