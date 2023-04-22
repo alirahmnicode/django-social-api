@@ -6,6 +6,7 @@ from accounts import views
 
 router = DefaultRouter()
 router.register("user", views.UserViewSet)
+router.register("profile", views.ProfileViewSet)
 
 urlpatterns = [
     path('login/', views.UserLoginApiView.as_view()),
