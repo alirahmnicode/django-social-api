@@ -10,3 +10,10 @@ class UpdateOwnAccount(permissions.BasePermission):
             return True
         
         return obj.id == request.user.id
+
+
+class OwnAccount(permissions.BasePermission):
+    """Allow user to retriev their own account"""
+
+    def has_object_permission(self, request, view, obj):
+        return obj.id == request.user.id
