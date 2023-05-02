@@ -15,3 +15,14 @@ class PostViewSet(viewsets.ModelViewSet):
         if self.action in ["update", "destroy", "partial_update"]:
             permission_classes = [IsAuthenticated, OwnObject]
         return [permission() for permission in permission_classes]
+
+
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+    def get_permissions(self):
+        permission_classes = [IsAuthenticated]
+        if self.action in ["update", "destroy", "partial_update"]:
+            permission_classes = [IsAuthenticated, OwnObject]
+        return [permission() for permission in permission_classes]
