@@ -25,7 +25,6 @@ class UserRegisterationSerializer(serializers.ModelSerializer):
         )
         return user
 
-
     def get_token(self, user):
         """Return token in response"""
         data = dict()
@@ -37,6 +36,7 @@ class UserRegisterationSerializer(serializers.ModelSerializer):
 
         return data
 
+
 class UserOwnAccountSerializer(serializers.ModelSerializer):
     """user this serializer for access user to own account fields"""
 
@@ -47,12 +47,14 @@ class UserOwnAccountSerializer(serializers.ModelSerializer):
             "password": {"write_only": True, "style": {"input_type": "password"}},
         }
 
+
 class UserSerializer(serializers.ModelSerializer):
     """Serializes a user object"""
 
     class Meta:
         model = models.CustomUser
         fields = ("id", "username")
+
 
 class ProfileSerializer(serializers.ModelSerializer):
     """Serializes a profile object"""
@@ -71,3 +73,5 @@ class ProfileSerializer(serializers.ModelSerializer):
             "followers",
             "created_at",
         )
+        extra_kwargs = {"avatar": {"required": False}}
+        read_only_fields = ["id", "following", "followers", "created_at"]
