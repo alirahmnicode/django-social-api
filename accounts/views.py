@@ -45,4 +45,13 @@ class ProfileViewSet(viewsets.ModelViewSet):
 
     serializer_class = serializers.ProfileSerializer
     queryset = Profile.objects.all()
-    permission_classes = (UpdateOwnAccount,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_permissions(self):
+        """set own account permision for unsafe methods"""
+        permission_classes = [IsAuthenticated]
+
+        if self.action in ["create", "update", "destroy", "partial_update"]:
+            permission_classes = [IsAuthenticated, OwnAccount]
+
+        return [permission() for permission in permission_classes]
