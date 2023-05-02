@@ -1,10 +1,10 @@
 from rest_framework import viewsets
 from rest_framework import filters
-from rest_framework.permissions import IsAdminUser, AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from accounts.models import CustomUser, Profile
 from accounts import serializers
-from accounts.permissions import UpdateOwnAccount, OwnAccount
+from custom_permission.permissions import OwnObject
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -20,7 +20,7 @@ class UserViewSet(viewsets.ModelViewSet):
         Instantiates and returns the list of permissions that this view requires.
         """
         if self.action in ["retrieve", "destroy", "update", "partial_update"]:
-            permission_classes = [IsAuthenticated, OwnAccount]
+            permission_classes = [IsAuthenticated, OwnObject]
         elif self.action == "create":
             permission_classes = [AllowAny]
         else:
@@ -52,6 +52,6 @@ class ProfileViewSet(viewsets.ModelViewSet):
         permission_classes = [IsAuthenticated]
 
         if self.action in ["create", "update", "destroy", "partial_update"]:
-            permission_classes = [IsAuthenticated, OwnAccount]
+            permission_classes = [IsAuthenticated, OwnObject]
 
         return [permission() for permission in permission_classes]
