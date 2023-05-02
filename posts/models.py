@@ -22,7 +22,7 @@ class Comment(models.Model):
     """Comments for each post"""
 
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
-    author_name = models.CharField(max_length=255)
+    user = models.ForeignKey(User, on_delete=models.Case, related_name="comments")
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
