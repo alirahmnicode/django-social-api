@@ -5,9 +5,26 @@ from .models import Post, Comment
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    user = UserSerializer(required=False)
+
     class Meta:
         model = Comment
-        fields = ("id", "author_name", "content", "created_at")
+        fields = ("id", "post", "user", "content", "created_at")
+        write_only_fields = ["post", "user"]
+
+    def create(self, validated_data):
+        user = None
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+
+        comment = Comment.objects.create(
+            post=validated_data.get("post"),
+            content=validated_data.get("content"),
+            user=user,
+        )
+        return comment
+
 
 
 class PostSerializer(serializers.ModelSerializer):
