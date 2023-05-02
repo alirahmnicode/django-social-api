@@ -41,7 +41,7 @@ INSTALLED_APPS = [
 
     # third party packages
     'rest_framework',
-    'rest_framework.authtoken',
+    'rest_framework_simplejwt',
     'drf_spectacular',
     # local apps
     'accounts',
@@ -138,6 +138,9 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
